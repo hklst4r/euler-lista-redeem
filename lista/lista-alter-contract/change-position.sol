@@ -26,10 +26,10 @@ contract Action {
     fallback() external {
         require(tx.origin == owner);
         IERC20(vault).transferFrom(owner, address(this), amount);
+        IERC20(usdt).approve(morpho, type(uint256).max);
 
         // deposit into solvBTC market
         MarketParams memory marketParams = IMorpho(morpho).idToMarketParams(satUSDMarketId);
-        IERC20(usdt).approve(morpho, type(uint256).max);
         IMorpho(morpho).supply(marketParams, amount, 0, owner, "");
 
         // withdraw from re7
